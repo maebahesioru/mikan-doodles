@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mikan Doodles — 手描きみかん図鑑</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background: linear-gradient(170deg, #fff8e7 0%, #ffe9c2 100%);
+    color: #4a3800; min-height: 100vh; padding: 32px 16px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 28px; }
+  h1 { font-size: 2rem; letter-spacing: 1px; }
+  .sub { color: #b8a86a; margin-top: 8px; font-size: 0.95rem; }
+  .note {
+    background: #fffdf6; border: 2px dashed #e2d2a2; border-radius: 16px;
+    padding: 14px 18px; font-size: 0.85rem; color: #8a6d1a; margin: 18px 0 26px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+  .card {
+    background: #fffdf6; border-radius: 18px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(180, 140, 40, 0.12);
+    transition: transform 0.15s;
+  }
+  .card:hover { transform: translateY(-3px); }
+  .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; background: #fff; }
+  .meta { padding: 12px 14px 16px; }
+  .meta .title { font-weight: 700; font-size: 1rem; }
+  .meta .cap { color: #b8a86a; font-size: 0.82rem; margin-top: 4px; }
+  .meta .badge {
+    display: inline-block; font-size: 0.72rem; background: #ffe9b8; color: #8a6d1a;
+    padding: 3px 10px; border-radius: 999px; margin-top: 8px; font-weight: 700;
+  }
+  footer { text-align: center; color: #b8a86a; font-size: 0.8rem; margin-top: 34px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🍊 Mikan Doodles</h1>
+    <div class="sub">手描きみかん図鑑 — hand-drawn mikan drawings, scanned &amp; collected here.</div>
+  </header>
+
+  <div class="note">
+    📝 <strong>このページについて:</strong> すべての絵は手描き（紙 or デジタル）です。AI生成アセットはありません。
+    Paperclip提出用 — 描いた絵を <code>assets/</code> のプレースホルダと差し替えて push するだけで更新されます。
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>Mikan Doodles — drawn by hand, one mikan at a time 🍊 / Hack Club Paperclip</footer>
+</div>
+
+<script>
+// 各カード: assets/ の画像とキャプション
+const ITEMS = [
+  { file: 'assets/01-mikan-hello.png',  title: 'Mikan #01 — こんにちは',  cap: '基本のポーズ。まるい体と葉っぱ。' },
+  { file: 'assets/02-mikan-sleep.png',  title: 'Mikan #02 — おひるね',    cap: 'まるくなって眠るみかん。' },
+  { file: 'assets/03-mikan-run.png',    title: 'Mikan #03 — ダッシュ',    cap: '走るみかん。葉っぱがなびく。' },
+  { file: 'assets/04-mikan-friends.png',title: 'Mikan #04 — なかまたち',  cap: 'みかんと、みかんじゃない何か。' },
+  { file: 'assets/05-mikan-focus.png',  title: 'Mikan #05 — 集中',        cap: 'みかんフォーカス(ポモドーロ)の相棒。' },
+  { file: 'assets/06-mikan-halloween.png', title: 'Mikan #06 — かぼちゃ?', cap: 'ハロウィンのみかん。' },
+];
+
+const grid = document.getElementById('grid');
+for (const it of ITEMS) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  const img = document.createElement('img');
+  img.src = it.file;
+  img.alt = it.title;
+  img.loading = 'lazy';
+  img.onerror = () => { img.onerror = null; img.src = 'assets/placeholder.svg'; };
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const t = document.createElement('div');
+  t.className = 'title';
+  t.textContent = it.title;
+  const c = document.createElement('div');
+  c.className = 'cap';
+  c.textContent = it.cap;
+  const b = document.createElement('div');
+  b.className = 'badge';
+  b.textContent = '✏️ hand-drawn';
+  meta.append(t, c, b);
+  card.append(img, meta);
+  grid.appendChild(card);
+}
+</script>
+</body>
+</html>
